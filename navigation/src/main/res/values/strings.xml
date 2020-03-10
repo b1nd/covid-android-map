@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">navigation</string>
+
+    <string name="bottom_navigation_map">Map</string>
+    <string name="bottom_navigation_near">Near</string>
+    <string name="bottom_navigation_statistics">Statistics</string>
+</resources>

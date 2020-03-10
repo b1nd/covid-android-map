@@ -1,0 +1,12 @@
+rootProject.name='covid'
+
+include ':app'
+include ':navigation'
+include ':ui'
+include ':util'
+include ':map'
+include ':map_api'
+include ':near'
+include ':near_api'
+include ':statistics'
+include ':statistics_api'

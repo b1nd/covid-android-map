@@ -1,0 +1,31 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply from: "$rootDir/gradle/scripts/android-module.gradle"
+
+dependencies {
+    implementation library.map
+    implementation library.map_api
+
+    implementation library.near
+    implementation library.near_api
+
+    implementation library.statistics
+    implementation library.statistics_api
+
+    implementation library.cicerone
+    implementation library.navigation
+    implementation library.threeTenAbp
+    implementation library.multidex
+    implementation library.appCompat
+    implementation library.koinViewModel
+    implementation groups.koinWithExt
+    implementation library.constraintLayout
+    implementation library.fragmentKtx
+    implementation library.lifecycleExtensions
+    implementation library.lifecycleViewModel
+    implementation library.lifecycleLivedata
+    implementation library.ui
+    implementation library.util
+    implementation library.material
+}
