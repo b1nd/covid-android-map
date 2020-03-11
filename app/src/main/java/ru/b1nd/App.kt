@@ -6,10 +6,12 @@ import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.coroutines.InternalCoroutinesApi
 import org.koin.core.context.startKoin
+import ru.b1nd.data.di.dataModule
 import ru.b1nd.di.routerModule
 import ru.b1nd.map.di.mapModule
 import ru.b1nd.navigation.di.navigationModule
 import ru.b1nd.near.di.nearModule
+import ru.b1nd.network.di.networkModule
 import ru.b1nd.statistics.di.statisticsModule
 
 class App : Application() {
@@ -23,6 +25,8 @@ class App : Application() {
                 listOf(
                     navigationModule,
                     routerModule,
+                    networkModule,
+                    dataModule,
                     mapModule,
                     nearModule,
                     statisticsModule

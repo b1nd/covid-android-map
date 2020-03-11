@@ -74,8 +74,6 @@ class AppActivity : AppCompatActivity() {
             model.state
                 .collect { updateState(it) }
         }
-
-        model.onNearNavigation()
     }
 
     private fun setupBottomNavigation() {

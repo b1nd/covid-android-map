@@ -13,8 +13,15 @@ dependencies {
     implementation library.statistics
     implementation library.statistics_api
 
-    implementation library.cicerone
+    implementation library.data
+    implementation library.data_api
+
+    implementation library.ui
+    implementation library.util
     implementation library.navigation
+    implementation library.network
+
+    implementation library.cicerone
     implementation library.threeTenAbp
     implementation library.multidex
     implementation library.appCompat
@@ -25,7 +32,5 @@ dependencies {
     implementation library.lifecycleExtensions
     implementation library.lifecycleViewModel
     implementation library.lifecycleLivedata
-    implementation library.ui
-    implementation library.util
     implementation library.material
 }

@@ -47,8 +47,11 @@ ext {
             calendar                     : ("com.github.kizitonwose:CalendarView:$calendar_version"),
             threeTenAbp                  : ("com.jakewharton.threetenabp:threetenabp:$threeTenAbp_version"),
             searchView                   : ("com.miguelcatalan:materialsearchview:$searchView_version"),
+            commonsCsv                   : ("org.apache.commons:commons-csv:$commonsCsv_version"),
 
             // modules
+            data                         : project(":data"),
+            data_api                     : project(":data_api"),
             map                          : project(":map"),
             map_api                      : project(":map_api"),
             near                         : project(":near"),
@@ -56,6 +59,7 @@ ext {
             statistics                   : project(":statistics"),
             statistics_api               : project(":statistics_api"),
 
+            network                      : project(":network"),
             navigation                   : project(":navigation"),
             util                         : project(":util"),
             ui                           : project(":ui")

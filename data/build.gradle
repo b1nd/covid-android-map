@@ -1,0 +1,10 @@
+apply from: "$rootDir/gradle/scripts/module.gradle"
+
+dependencies {
+    implementation library.data_api
+
+    implementation library.coroutinesCore
+    implementation library.retrofit
+    implementation library.commonsCsv
+    implementation groups.koinWithExt
+}
