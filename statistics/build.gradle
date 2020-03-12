@@ -4,12 +4,15 @@ apply plugin: 'kotlin-android-extensions'
 apply from: "$rootDir/gradle/scripts/android-module.gradle"
 
 dependencies {
-    implementation library.appCompat
     implementation library.ui
+    implementation library.statistics_api
+    implementation library.data_api
+    implementation library.navigation
+
+    implementation library.appCompat
     implementation library.material
     implementation library.constraintLayout
     implementation library.fragmentKtx
-    implementation library.navigation
     implementation library.lifecycleExtensions
     implementation library.lifecycleViewModel
     implementation library.lifecycleLivedata

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">statistics</string>
+
+    <string name="overall_info_item_infected">Infected:</string>
+    <string name="overall_info_item_deaths">Deaths:</string>
+    <string name="overall_info_item_recovered">Recovered:</string>
 </resources>
