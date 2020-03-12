@@ -10,13 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import ru.b1nd.R
+import ru.b1nd.data.api.data.repo.CovidDataRepository
 import ru.b1nd.navigation.ui.BaseFragment
 import ru.b1nd.presentation.viewmodel.AppViewModel
 import ru.b1nd.presentation.viewmodel.AppViewState
@@ -24,10 +22,12 @@ import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.android.support.SupportAppNavigator
 import ru.terrakok.cicerone.commands.Command
+import java.time.LocalDate
 
 class AppActivity : AppCompatActivity() {
     private val navigatorHolder: NavigatorHolder by inject()
     private val model: AppViewModel by inject()
+    private val covidDataRepository: CovidDataRepository by inject()
     private val lifecycleCallbacks by lazy {
         LifecycleCallbacks()
     }
@@ -73,6 +73,11 @@ class AppActivity : AppCompatActivity() {
         GlobalScope.launch(Dispatchers.Main) {
             model.state
                 .collect { updateState(it) }
+        }
+
+        // fixme: rework logic, only for tests
+        GlobalScope.launch(Dispatchers.IO) {
+            covidDataRepository.loadData(LocalDate.now().minusDays(2))
         }
     }
 
