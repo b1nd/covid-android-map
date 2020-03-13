@@ -40,7 +40,7 @@ class CovidDataRepositoryImpl(
         val stream = covidDataApi.covidDailyData("${date.toRepoDateFormat()}.csv").byteStream()
 
         val parser = CSVFormat
-            .newFormat(',')
+            .DEFAULT
             .parse(InputStreamReader(stream, "UTF8"))
 
         val recordsWithoutHeader = parser.records.drop(1)
