@@ -5,7 +5,8 @@ import ru.b1nd.statistics.api.domain.entity.CountryInfo
 interface GetCountriesInfoUseCase {
     sealed class GetCountriesInfoEvent {
         data class Success(val countriesInfo: List<CountryInfo>) : GetCountriesInfoEvent()
-        data class Error(val throwable: Throwable): GetCountriesInfoEvent()
+        data class Error(val throwable: Throwable) : GetCountriesInfoEvent()
+        object Empty : GetCountriesInfoEvent()
     }
 
     suspend fun execute(): GetCountriesInfoEvent

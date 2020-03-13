@@ -14,17 +14,23 @@ class GetOverallInfoUseCaseImpl(
 
     override suspend fun execute(): GetOverallInfoEvent = coroutineScope {
         runCatching {
-            val rows = covidDataRepository.getData().toList()
+            if (covidDataRepository.isDataLoaded()) {
+                val rows = covidDataRepository.getData().toList()
 
-            val totalInfected  = async { rows.fold(0L) { acc, it -> acc + it.confirmed } }
-            val totalDeaths    = async { rows.fold(0L) { acc, it -> acc + it.deaths } }
-            val totalRecovered = async { rows.fold(0L) { acc, it -> acc + it.recovered } }
+                val totalInfected  = async { rows.fold(0L) { acc, it -> acc + it.confirmed } }
+                val totalDeaths    = async { rows.fold(0L) { acc, it -> acc + it.deaths } }
+                val totalRecovered = async { rows.fold(0L) { acc, it -> acc + it.recovered } }
 
-            GetOverallInfoEvent.Success(OverallInfo(
-                totalInfected.await(),
-                totalDeaths.await(),
-                totalRecovered.await()
-            ))
+                GetOverallInfoEvent.Success(
+                    OverallInfo(
+                        totalInfected.await(),
+                        totalDeaths.await(),
+                        totalRecovered.await()
+                    )
+                )
+            } else {
+                GetOverallInfoEvent.Empty
+            }
         }.getOrElse { GetOverallInfoEvent.Error(it) }
     }
 }
