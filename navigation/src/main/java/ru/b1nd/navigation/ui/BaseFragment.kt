@@ -7,14 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 
-private const val PROGRESS_TAG = "bf_progress"
-private const val STATE_SCOPE_NAME = "state_scope_name"
 
 abstract class BaseFragment : Fragment() {
-
-    companion object {
-        private const val TAG = "BaseFragment"
-    }
 
     abstract val layoutRes: Int
 

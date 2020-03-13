@@ -21,6 +21,7 @@ dependencies {
     implementation library.navigation
     implementation library.network
 
+    implementation library.playServicesMaps
     implementation library.cicerone
     implementation library.threeTenAbp
     implementation library.multidex

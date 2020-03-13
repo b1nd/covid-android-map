@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">map</string>
+
+    <string name="marker_snippet_infected">Infected:</string>
+    <string name="marker_snippet_deaths">Deaths:</string>
+    <string name="marker_snippet_recovered">Recovered:</string>
 </resources>

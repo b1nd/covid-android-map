@@ -30,4 +30,5 @@ ext {
     threeTenAbp_version = "1.2.2"
     searchView_version = "1.4.0"
     commonsCsv_version = "1.8"
+    playServicesMaps_version = "17.0.0"
 }
