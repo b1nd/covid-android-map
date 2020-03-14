@@ -48,7 +48,8 @@ ext {
             threeTenAbp                  : ("com.jakewharton.threetenabp:threetenabp:$threeTenAbp_version"),
             searchView                   : ("com.miguelcatalan:materialsearchview:$searchView_version"),
             commonsCsv                   : ("org.apache.commons:commons-csv:$commonsCsv_version"),
-            playServicesMaps             : ("com.google.android.gms:play-services-maps:$playServicesMaps_version"),
+            playServicesMaps             : ("com.google.android.gms:play-services-maps:$playServices_version"),
+            playServicesLocation         : ("com.google.android.gms:play-services-location:$playServices_version"),
 
             // modules
             data                         : project(":data"),
