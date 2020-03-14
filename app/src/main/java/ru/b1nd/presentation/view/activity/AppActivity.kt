@@ -2,6 +2,7 @@ package ru.b1nd.presentation.view.activity
 
 import android.graphics.Rect
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.doOnApplyWindowInsets
 import androidx.appcompat.app.AppCompatActivity
@@ -22,6 +23,7 @@ import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.android.support.SupportAppNavigator
 import ru.terrakok.cicerone.commands.Command
+import java.lang.Exception
 import java.time.LocalDate
 
 class AppActivity : AppCompatActivity() {
@@ -52,6 +54,11 @@ class AppActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // fixme: I'm bad
+        GlobalScope.launch(Dispatchers.IO) {
+            loadCovidRepositoryData()
+        }
+
         supportFragmentManager.registerFragmentLifecycleCallbacks(lifecycleCallbacks, true)
 
         findViewById<View>(R.id.container).doOnApplyWindowInsets { view, insets, initialPadding ->
@@ -74,22 +81,19 @@ class AppActivity : AppCompatActivity() {
             model.state
                 .collect { updateState(it) }
         }
-
-        // fixme: rework logic, only for tests
-        GlobalScope.launch(Dispatchers.IO) {
-            covidDataRepository.loadData(LocalDate.now().minusDays(2))
-        }
+        model.onNearNavigation()
     }
 
     private fun setupBottomNavigation() {
-        findViewById<BottomNavigationView>(R.id.bottom_navigation).setOnNavigationItemSelectedListener { menuItem ->
-            when(menuItem.itemId) {
-                R.id.action_map -> model.onMapNavigation()
-                R.id.action_near -> model.onNearNavigation()
-                R.id.action_statistics -> model.onStatisticsNavigation()
+        findViewById<BottomNavigationView>(R.id.bottom_navigation)
+            .setOnNavigationItemSelectedListener { menuItem ->
+                when (menuItem.itemId) {
+                    R.id.action_map -> model.onMapNavigation()
+                    R.id.action_near -> model.onNearNavigation()
+                    R.id.action_statistics -> model.onStatisticsNavigation()
+                }
+                true
             }
-            true
-        }
     }
 
     private fun updateState(state: AppViewState) {
@@ -99,6 +103,24 @@ class AppActivity : AppCompatActivity() {
             } else {
                 View.GONE
             }
+    }
+
+    private suspend fun loadCovidRepositoryData(
+        date: LocalDate = LocalDate.now().minusDays(1),
+        tries: Int = 5
+    ) {
+        try {
+            covidDataRepository.loadData(date)
+            Log.i(TAG, "Covid data loaded on date: $date")
+        } catch (e: Exception) {
+            if (tries > 0) {
+                Log.w(TAG, "Cannot load covid data on date: $date", e)
+                loadCovidRepositoryData(date.minusDays(1), tries - 1)
+            } else {
+                Log.e(TAG, e.message, e)
+                throw e
+            }
+        }
     }
 
     override fun onResumeFragments() {
@@ -128,5 +150,9 @@ class AppActivity : AppCompatActivity() {
             val shouldShow = fragment.shouldShowNavigationBar
             model.onScreenShown(shouldShow)
         }
+    }
+
+    companion object {
+        private val TAG = AppActivity::class.java.simpleName
     }
 }
