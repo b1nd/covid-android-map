@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">near</string>
+
+    <string name="near_user_location_label">Location</string>
+    <string name="near_user_location_latitude_label">Latitude:</string>
+    <string name="near_user_location_longitude_label">Longitude:</string>
+    <string name="near_user_location_country_label">Country:</string>
+    <string name="near_user_location_city_label">City:</string>
+
+    <string name="near_country_covid_info_label">Covid info in your country</string>
+    <string name="near_city_covid_info_label">Covid info in your city</string>
+
+    <string name="near_covid_info_infected_label">Infected:</string>
+    <string name="near_covid_info_deaths_label">Deaths:</string>
+    <string name="near_covid_info_recovered_label">Recovered:</string>
+
+    <string name="near_country_no_info">no info in your country</string>
+    <string name="near_city_no_info">no info in your city</string>
 </resources>

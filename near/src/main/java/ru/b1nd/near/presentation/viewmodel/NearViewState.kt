@@ -5,6 +5,8 @@ import ru.b1nd.near.domain.entity.UserLocationInfo
 
 data class NearViewState(
     val userLocationInfo: UserLocationInfo = UserLocationInfo(0.0, 0.0, "", "", "", ""),
-    val covidInfo: CovidInfo = CovidInfo(0, 0, 0),
-    val isStateInfo: Boolean = false
+    val isCountryCovidInfoLoaded: Boolean = false,
+    val countryCovidInfo: CovidInfo = CovidInfo(0, 0, 0),
+    val isStateCovidInfoLoaded: Boolean = false,
+    val stateCovidInfo: CovidInfo = CovidInfo(0, 0, 0)
 )

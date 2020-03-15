@@ -3,23 +3,41 @@ package ru.b1nd.near.presentation.viewmodel
 import ru.b1nd.near.api.domain.entity.CovidInfo
 import ru.b1nd.near.domain.entity.UserLocationInfo
 
-typealias MapPartialViewState = (NearViewState) -> NearViewState
+typealias NearPartialViewState = (NearViewState) -> NearViewState
 
 object NearPartialViewStates {
 
-    fun onStateCovidInfoUpdated(covidInfo: CovidInfo, userLocationInfo: UserLocationInfo): MapPartialViewState = {
+    fun onUserLocationUpdated(userLocationInfo: UserLocationInfo): NearPartialViewState = {
         it.copy(
-            userLocationInfo = userLocationInfo,
-            isStateInfo = true,
-            covidInfo = covidInfo
+            userLocationInfo = userLocationInfo
         )
     }
 
-    fun onCountryCovidInfoUpdated(covidInfo: CovidInfo, userLocationInfo: UserLocationInfo): MapPartialViewState = {
+    fun onStateCovidInfoUpdated(stateCovidInfo: CovidInfo): NearPartialViewState = {
         it.copy(
-            userLocationInfo = userLocationInfo,
-            isStateInfo = false,
-            covidInfo = covidInfo
+            isStateCovidInfoLoaded = true,
+            stateCovidInfo = stateCovidInfo
+        )
+    }
+
+    fun onCountryCovidInfoUpdated(countryCovidInfo: CovidInfo): NearPartialViewState = {
+        it.copy(
+            isCountryCovidInfoLoaded = true,
+            countryCovidInfo = countryCovidInfo
+        )
+    }
+
+    fun onEmptyStateCovidInfo(): NearPartialViewState = {
+        it.copy(
+            isStateCovidInfoLoaded = false,
+            stateCovidInfo = CovidInfo(0, 0, 0)
+        )
+    }
+
+    fun onEmptyCountryCovidInfo(): NearPartialViewState = {
+        it.copy(
+            isCountryCovidInfoLoaded = false,
+            countryCovidInfo = CovidInfo(0, 0, 0)
         )
     }
 }

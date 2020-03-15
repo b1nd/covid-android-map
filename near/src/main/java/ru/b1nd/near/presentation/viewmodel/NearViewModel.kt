@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.scan
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ru.b1nd.near.api.domain.usecase.FindCovidInfoUseCase
 import ru.b1nd.near.api.domain.usecase.FindCovidInfoUseCase.FindCovidInfoEvent
 import ru.b1nd.near.domain.entity.UserLocationInfo
@@ -18,7 +19,7 @@ class NearViewModel(
     private val findCovidInfoUseCase: FindCovidInfoUseCase
 ) : ViewModel() {
 
-    private val stateRelay = MutableLiveData<MapPartialViewState>()
+    private val stateRelay = MutableLiveData<NearPartialViewState>()
 
     @ExperimentalCoroutinesApi
     val state = stateRelay.asFlow()
@@ -36,20 +37,34 @@ class NearViewModel(
                 it.equals(userLocationInfo.state, true) ||
                 it.equals(userLocationInfo.admin, true)
             }
-            findCovidInfoUseCase.execute(countryPredicate, statePredicate).also { event ->
-                when (event) {
-                    is FindCovidInfoEvent.Success ->
-                        stateRelay.postValue(NearPartialViewStates
-                            .onStateCovidInfoUpdated(event.covidInfo, userLocationInfo))
-                    is FindCovidInfoEvent.Empty ->
-                        findCovidInfoUseCase.execute(countryPredicate, null).also {
-                            when (it) {
-                                is FindCovidInfoEvent.Success ->
-                                    stateRelay.postValue(NearPartialViewStates
-                                        .onCountryCovidInfoUpdated(it.covidInfo, userLocationInfo))
-                            }
+            withContext(Dispatchers.IO) {
+                stateRelay.postValue(NearPartialViewStates.onUserLocationUpdated(userLocationInfo))
+            }
+            withContext(Dispatchers.IO) {
+                findCovidInfoUseCase.execute(countryPredicate, null)
+                    .also { event ->
+                        when (event) {
+                            is FindCovidInfoEvent.Success -> stateRelay.postValue(
+                                NearPartialViewStates.onCountryCovidInfoUpdated(event.covidInfo)
+                            )
+                            is FindCovidInfoEvent.Empty -> stateRelay.postValue(
+                                NearPartialViewStates.onEmptyCountryCovidInfo()
+                            )
                         }
-                }
+                    }
+            }
+            withContext(Dispatchers.IO) {
+                findCovidInfoUseCase.execute(countryPredicate, statePredicate)
+                    .also { event ->
+                        when (event) {
+                            is FindCovidInfoEvent.Success -> stateRelay.postValue(
+                                NearPartialViewStates.onStateCovidInfoUpdated(event.covidInfo)
+                            )
+                            is FindCovidInfoEvent.Empty -> stateRelay.postValue(
+                                NearPartialViewStates.onEmptyStateCovidInfo()
+                            )
+                        }
+                    }
             }
         }
     }
